@@ -12,7 +12,7 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         repository: tr23malyarchuk/provedcode-frontend-tr23malyarchuk
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.MY_PAT }}
         event-type: trigger-ci
         client-payload: '{"action": "run"}'
 
@@ -25,6 +25,6 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         repository: tr23malyarchuk/provedcode-backend-tr23malyarchuk
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.MY_PAT }}
         event-type: trigger-ci
         client-payload: '{"action": "run"}'
