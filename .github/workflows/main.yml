@@ -1,4 +1,4 @@
-name: Cross-Repo CI
+name: Cross Repo CI
 
 on:
   push:
@@ -9,15 +9,25 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
-      - name: Call frontend workflow
-        uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
+      - name: Checkout frontend repo
+        uses: actions/checkout@v2
         with:
-          my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
+          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+
+      - name: Run frontend pipeline
+        run: |
+          
 
   backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Call backend workflow
-        uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
+      - name: Checkout backend repo
+        uses: actions/checkout@v2
         with:
-          my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
+          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+
+      - name: Run backend pipeline
+        run: |
+          
