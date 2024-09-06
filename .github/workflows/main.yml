@@ -7,11 +7,17 @@ on:
 
 jobs:
   frontend:
-    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
-    with:
-      my_token: $MY_PERSONAL_TOKEN
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call frontend workflow
+        uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
+        with:
+          my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
   backend:
-    uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
-    with:
-      my_token: $MY_PERSONAL_TOKEN
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call backend workflow
+        uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
+        with:
+          my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
