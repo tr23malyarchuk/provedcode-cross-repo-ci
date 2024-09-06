@@ -16,8 +16,11 @@ jobs:
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
       - name: Run frontend pipeline
-        run: |
-          
+        uses: actions/workflow-dispatch@v2
+        with:
+          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          workflow: Frontend Pipeline
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
   backend:
     runs-on: ubuntu-latest
@@ -29,5 +32,8 @@ jobs:
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
       - name: Run backend pipeline
-        run: |
-          
+        uses: actions/workflow-dispatch@v2
+        with:
+          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
+          workflow: Backend Pipeline
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
