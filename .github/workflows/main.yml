@@ -7,7 +7,7 @@ on:
 
 jobs:
   frontend:
-    uses: https://github.com/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/blob/main/.github/workflows/main.yml
+    uses: https://github.com/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/blob/main/.github/workflows/main.yml@main
 
   backend:
-    uses: https://github.com/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/blob/main/.github/workflows/main.yml
+    uses: https://github.com/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/blob/main/.github/workflows/main.yml@main
