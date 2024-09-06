@@ -15,7 +15,7 @@ jobs:
         with:
           github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
           script: |
-            await github.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-frontend-tr23malyarchuk',
               workflow_id: 'main.yml',
@@ -30,7 +30,7 @@ jobs:
         with:
           github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
           script: |
-            await github.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-backend-tr23malyarchuk',
               workflow_id: 'main.yml',
