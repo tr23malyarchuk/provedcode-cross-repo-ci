@@ -2,7 +2,7 @@ name: United CI
 
 on:
   repository_dispatch:
-    types: [trigger-ci]
+    types: [trigger_event]
 
 jobs:
   frontend-ci:
