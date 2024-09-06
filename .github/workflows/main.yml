@@ -17,7 +17,7 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/tr23malyarchuk/provedcode-backend-tr23malyarchuk/actions/workflows/backend-pipeline.yml/dispatches \
+            https://api.github.com/repos/tr23malyarchuk/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml \
             -d '{"ref":"main"}'
 
   trigger_frontend_pipeline:
@@ -28,5 +28,5 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/tr23malyarchuk/provedcode-frontend-tr23malyarchuk/actions/workflows/frontend-pipeline.yml/dispatches \
+            https://api.github.com/repos/tr23malyarchuk/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml \
             -d '{"ref":"main"}'
