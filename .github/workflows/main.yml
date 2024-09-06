@@ -6,22 +6,8 @@ on:
       - main
 
 jobs:
-  trigger_frontend:
+  call_child_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Frontend Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
-
-  trigger_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Backend Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+      - name: Call Child Workflow
+        uses: ./.github/workflows/main.yml
