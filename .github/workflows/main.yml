@@ -6,34 +6,22 @@ on:
       - main
 
 jobs:
-  frontend:
+  trigger_frontend:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout frontend repo
-        uses: actions/checkout@v2
+      - name: Trigger Frontend Pipeline
+        uses: peter-evans/repository-dispatch@v1
         with:
           repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
-      - name: Run frontend pipeline
-        uses: actions/workflow-dispatch@v2
-        with:
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
-          workflow: Frontend Pipeline
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
-
-  backend:
+  trigger_backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout backend repo
-        uses: actions/checkout@v2
+      - name: Trigger Backend Pipeline
+        uses: peter-evans/repository-dispatch@v1
         with:
           repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
-
-      - name: Run backend pipeline
-        uses: actions/workflow-dispatch@v2
-        with:
-          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
-          workflow: Backend Pipeline
+          event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
