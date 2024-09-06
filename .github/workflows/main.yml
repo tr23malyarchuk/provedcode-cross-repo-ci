@@ -6,8 +6,33 @@ on:
       - main
 
 jobs:
-  call_child_workflow:
+
+  trigger_frontend:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Child Workflow
-        uses: ./.github/workflows/main.yml
+      - name: Trigger Frontend Pipeline
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-frontend-tr23malyarchuk',
+              workflow_id: 'main.yml',
+              ref: 'main'
+            })
+
+  trigger_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Backend Pipeline  
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-backend-tr23malyarchuk',
+              workflow_id: 'main.yml',
+              ref: 'main'
+            })
