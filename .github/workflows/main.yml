@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: tr23malyarchuk/provedcode-frontend-tr23malyarchuk
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
           path: frontend
 
       - name: Set up Node.js
@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: tr23malyarchuk/provedcode-backend-tr23malyarchuk
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
           path: backend
 
       - name: Set up JDK 17
