@@ -1,56 +1,13 @@
-name: United CI
+name: Cross-Repo CI
 
 on:
-  repository_dispatch:
-    types: [trigger_event]
+  push:
+    branches:
+      - main
 
 jobs:
-  frontend-ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout frontend code
-        uses: actions/checkout@v4
-        with:
-          repository: tr23malyarchuk/provedcode-frontend-tr23malyarchuk
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          path: frontend
+  frontend:
+    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: cd frontend && npm install
-
-      - name: Build the frontend
-        run: cd frontend && npm run build
-
-  backend-ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout backend code
-        uses: actions/checkout@v4
-        with:
-          repository: tr23malyarchuk/provedcode-backend-tr23malyarchuk
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          path: backend
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build and package with Maven
-        run: cd backend && mvn -B clean package --file pom.xml
-
-      - name: Run tests
-        run: cd backend && mvn test
-
-      - name: Upload JAR file
-        uses: actions/upload-artifact@v2
-        with:
-          name: backend-jar
-          path: backend/target/*.jar
+  backend:
+    uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
