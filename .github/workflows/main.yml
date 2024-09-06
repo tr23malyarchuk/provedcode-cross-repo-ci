@@ -10,18 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Frontend Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+        env:
+          REPO: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          WORKFLOW: main.yml
+          REF: main
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$REPO_F/actions/workflows/$WORKFLOW/dispatches \
+          -d "{\"ref\":\"$REF\"}"
 
   trigger_backend:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Backend Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+        env:
+          REPO: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk  
+          WORKFLOW: main.yml
+          REF: main
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$REPO_B/actions/workflows/$WORKFLOW/dispatches \
+          -d "{\"ref\":\"$REF\"}"
