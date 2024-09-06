@@ -1,4 +1,4 @@
-name: United CI
+name: Unified CI
 
 on:
   push:
@@ -9,24 +9,22 @@ on:
       - main
 
 jobs:
-  trigger_backend_pipeline:
+  trigger_backends:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Backend Pipeline
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/tr23malyarchuk/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml \
-            -d '{"ref":"main"}'
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          repository: tr23malyarchuk/provedcode-backend-tr23malyarchuk
+          workflow: main.yml
+          ref: main
 
-  trigger_frontend_pipeline:
+  trigger_frontends:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Frontend Pipeline
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/tr23malyarchuk/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml \
-            -d '{"ref":"main"}'
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          repository: tr23malyarchuk/provedcode-frontend-tr23malyarchuk
+          workflow: main.yml
+          ref: main
