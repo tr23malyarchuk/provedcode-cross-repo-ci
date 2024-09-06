@@ -1,30 +1,32 @@
 name: United CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  trigger-frontend-ci:
+  trigger_backend_pipeline:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Trigger Frontend CI
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        repository: tr23malyarchuk/provedcode-frontend-tr23malyarchuk
-        token: ${{ secrets.MY_PAT }}
-        event-type: trigger-ci
-        client-payload: '{"action": "run"}'
+      - name: Trigger Backend Pipeline
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/tr23malyarchuk/provedcode-backend-tr23malyarchuk/actions/workflows/backend-pipeline.yml/dispatches \
+            -d '{"ref":"main"}'
 
-  trigger-backend-ci:
+  trigger_frontend_pipeline:
     runs-on: ubuntu-latest
-    needs: trigger-frontend-ci
-
     steps:
-    - name: Trigger Backend CI
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        repository: tr23malyarchuk/provedcode-backend-tr23malyarchuk
-        token: ${{ secrets.MY_PAT }}
-        event-type: trigger-ci
-        client-payload: '{"action": "run"}'
+      - name: Trigger Frontend Pipeline
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/tr23malyarchuk/provedcode-frontend-tr23malyarchuk/actions/workflows/frontend-pipeline.yml/dispatches \
+            -d '{"ref":"main"}'
