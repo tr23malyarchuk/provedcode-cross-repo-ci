@@ -9,9 +9,9 @@ jobs:
   frontend:
     uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
     with:
-      my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
+      my_token: $MY_PERSONAL_TOKEN
 
   backend:
     uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
     with:
-      my_token: ${{ secrets.MY_PERSONAL_TOKEN }}
+      my_token: $MY_PERSONAL_TOKEN
