@@ -1,38 +1,11 @@
 name: Cross Repo CI
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
+  import_first_pipeline:
+    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
 
-  trigger_frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Frontend Pipeline
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-frontend-tr23malyarchuk',
-              workflow_id: 'main.yml',
-              ref: 'main'
-            });
-
-  trigger_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Backend Pipeline  
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-backend-tr23malyarchuk',
-              workflow_id: 'main.yml',
-              ref: 'main'
-            });
+  import_second_pipeline:
+    uses: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/.github/workflows/main.yml@main
