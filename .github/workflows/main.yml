@@ -23,4 +23,4 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh workflow run main.yml --ref main
+        gh workflow run .github/workflows/main.yml --ref main
