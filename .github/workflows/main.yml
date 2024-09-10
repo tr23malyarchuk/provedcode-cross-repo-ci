@@ -1,5 +1,5 @@
 # .github/workflows/main.yml в основном репозитории
-name: Cross Repo CI
+name: Trigger External Workflow
 
 on:
   push:
@@ -18,7 +18,8 @@ jobs:
         run: |
           gh api --method POST /repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
             -H "Accept: application/vnd.github.v3+json" \
-            -f event_type=trigger \
-            -f client_payload='{"custom": "data"}'
+            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -F event_type=trigger \
+            -F client_payload='{"custom": "data"}'
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
