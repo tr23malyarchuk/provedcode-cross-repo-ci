@@ -1,7 +1,7 @@
+# .github/workflows/main.yml в основном репозитории
 name: Cross Repo CI
 
 on:
-  workflow_call:
   push:
     branches: [ "main" ]
   pull_request:
@@ -11,13 +11,14 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger the other repository workflow
-        uses: octokit/request-action@v2.x
-        with:
-          route: POST /repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
-          owner: DevOps-ProjectLevel
-          repo: provedcode-frontend-tr23malyarchuk
-          event_type: trigger
-          client_payload: '{"custom": "data"}'
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+
+      - name: Trigger external workflow
+        run: |
+          gh api --method POST /repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
+            -H "Accept: application/vnd.github.v3+json" \
+            -f event_type=trigger \
+            -f client_payload='{"custom": "data"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
