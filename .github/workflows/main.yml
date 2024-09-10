@@ -21,4 +21,4 @@ jobs:
             -f event_type=trigger \
             -f client_payload='{"custom": "data"}'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
