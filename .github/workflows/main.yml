@@ -6,33 +6,16 @@ on:
       - main
 
 jobs:
-
-  trigger_frontend:
+  dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Frontend Pipeline
-        uses: actions/github-script@v6
+      - name: Trigger the other repository workflow
+        uses: octokit/request-action@v2.x
         with:
-          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-frontend-tr23malyarchuk',
-              workflow_id: 'main.yml',
-              ref: 'main'
-            });
-
-  trigger_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Backend Pipeline  
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.MY_PERSONAL_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-backend-tr23malyarchuk',
-              workflow_id: 'main.yml',
-              ref: 'main'
-            });
+          route: POST /repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
+          owner: DevOps-ProjectLevel
+          repo: provedcode-frontend-tr23malyarchuk
+          event_type: trigger
+          client_payload: '{"custom": "data"}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
