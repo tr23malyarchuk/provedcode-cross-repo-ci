@@ -21,3 +21,5 @@ jobs:
             -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
             -d '{"event_type": "trigger", "client_payload": {"custom": "data"}}' \
             https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
+        env:
+          MY_GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
