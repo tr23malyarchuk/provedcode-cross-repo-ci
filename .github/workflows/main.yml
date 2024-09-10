@@ -1,25 +1,22 @@
-# .github/workflows/main.yml в основном репозитории
-name: Trigger External Workflow
+name: Run Pipeline from provedcode-frontend-tr23malyarchuk
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  dispatch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout current repository
-        uses: actions/checkout@v3
 
-      - name: Trigger external workflow
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-            -d '{"event_type": "trigger", "client_payload": {"custom": "data"}}' \
-            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
-        env:
-          MY_GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+  run-provedcode-pipeline:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk'
+        token: ${{ secrets.MY_PERSONAL_TOKEN }}
+        path: 'provedcode'
+        
+    - name: Run provedcode pipeline
+      working-directory: provedcode
+      run: |
+        # Assuming the pipeline is defined in .github/workflows/main.yml
+        gh workflow run main.yml
