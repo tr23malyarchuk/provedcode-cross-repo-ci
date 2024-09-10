@@ -1,7 +1,10 @@
 name: Run Pipeline from provedcode-frontend-tr23malyarchuk
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
 
