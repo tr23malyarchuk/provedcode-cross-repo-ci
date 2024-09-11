@@ -7,21 +7,26 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   run-provedcode-pipeline:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
       with:
         repository: 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk'
         token: ${{ secrets.MY_PERSONAL_TOKEN }}
         path: 'provedcode'
         
+    - name: Install gh CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install gh -y
+
     - name: Run provedcode pipeline
       working-directory: provedcode
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
       run: |
+        gh auth login --with-token < $GH_TOKEN
         gh workflow run "Frontend Pipeline" --ref main
-
