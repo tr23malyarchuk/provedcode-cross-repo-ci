@@ -23,10 +23,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install gh -y
 
+    - name: Authenticate with GitHub CLI
+      run: echo "${{ secrets.MY_PERSONAL_TOKEN }}" | gh auth login --with-token
+
     - name: Run provedcode pipeline
       working-directory: provedcode
-      env:
-        GH_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
-      run: |
-        gh auth login --with-token < $GH_TOKEN
-        gh workflow run "Frontend Pipeline" --ref main
+      run: gh workflow run "Frontend Pipeline" --ref main
