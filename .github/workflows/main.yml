@@ -1,31 +1,33 @@
-name: Run Pipeline from provedcode-frontend-tr23malyarchuk
+name: Trigger Other Workflows
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  run-provedcode-pipeline:
+  trigger-workflows:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        repository: 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk'
-        token: ${{ secrets.MY_PERSONAL_TOKEN }}
-        path: 'provedcode'
-        
-    - name: Install gh CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install gh -y
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Authenticate with GitHub CLI
-      run: echo "${{ secrets.MY_PERSONAL_TOKEN }}" | gh auth login --with-token
+      - name: Trigger Backend Workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/bohdan/ProvedCode1/cross-repo/provedcode-cross-repo-ci/backend/repository_dispatch \
+            -d '{"event_type": "trigger-backend-workflow"}'
 
-    - name: Run provedcode pipeline
-      working-directory: provedcode
-      run: gh workflow run "Frontend Pipeline" --ref main
+      - name: Trigger Frontend Workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/bohdan/ProvedCode1/cross-repo/provedcode-cross-repo-ci/frontend/repository_dispatch \
+            -d '{"event_type": "trigger-frontend-workflow"}'
