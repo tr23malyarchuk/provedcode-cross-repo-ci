@@ -10,36 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - name: Trigger workflow in another repo
+        uses: actions/github-script@v6
         with:
-          python-version: '3.x'
+          script: |
+            const repoOwner = 'DevOps-ProjectLevel';
+            const repoName = 'provedcode-frontend-tr23malyarchuk';
+            const workflowId = 'main.yml';
+            const ref = 'main'; // Branch or tag to run the workflow
 
-      - name: Install python-dotenv
-        run: |
-          python -m pip install --upgrade pip
-          pip install python-dotenv
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: repoOwner,
+              repo: repoName,
+              workflow_id: workflowId,
+              ref: ref
+            });
 
-      - name: Load environment variables
-        id: load-env
-        run: |
-          from dotenv import load_dotenv
-          import os
-          load_dotenv('.env')
-          print(f"API_URL={os.getenv('API_URL')}")
-        env:
-          ENV_FILE: .env
-
-      - name: Trigger another workflow
+            console.log(`Workflow triggered successfully: ${response.status}`);
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
-          API_URL: ${{ secrets.API_URL }}
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            $API_URL \
-            -d '{"ref":"main"}'
