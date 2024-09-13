@@ -7,14 +7,10 @@ on:
         description: 'Git ref to checkout'
         required: true
         default: 'main'
-  push:
-    branches:
-      - main
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
-
     steps:
       - name: Trigger workflow in another repo
         uses: actions/github-script@v6
@@ -22,8 +18,8 @@ jobs:
           script: |
             const repoOwner = 'DevOps-ProjectLevel';
             const repoName = 'provedcode-frontend-tr23malyarchuk';
-            const workflowId = 'main.yml'; // Имя вашего файла рабочего процесса
-            const ref = 'main'; // Ветка, на которую запускается рабочий процесс
+            const workflowId = 'main.yml';
+            const ref = '${{ github.event.inputs.ref }}';
 
             try {
               const response = await github.rest.actions.createWorkflowDispatch({
