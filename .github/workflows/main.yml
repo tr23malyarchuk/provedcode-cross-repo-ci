@@ -9,23 +9,19 @@ on:
         default: 'main'
 
 jobs:
-  run-provedcode-pipeline:
+  trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Frontend Pipeline
+      - name: Trigger Pipeline
         uses: peter-evans/repository-dispatch@v1
         with:
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          repository: ${{ secrets.REPO_FRONTEND }}
           event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
 
-  trigger_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Backend Pipeline
+      - name: Trigger Pipeline
         uses: peter-evans/repository-dispatch@v1
         with:
-          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
+          repository: ${{ secrets.REPO_BACKEND }}
           event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
-
