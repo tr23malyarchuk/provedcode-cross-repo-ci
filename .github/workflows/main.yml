@@ -12,19 +12,36 @@ jobs:
   trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Install httpie
-        run: sudo apt-get install -y httpie
-
       - name: Trigger Frontend Pipeline
         run: |
-          http POST https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
-               Authorization:"token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-               Accept:"application/vnd.github.v3+json" \
-               event_type=run-workflow
+          python3 -c "
+import requests
+import os
+url = 'https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches'
+headers = {
+    'Authorization': f'token {os.getenv('MY_PERSONAL_TOKEN')}',
+    'Accept': 'application/vnd.github.v3+json'
+}
+data = {'event_type': 'run-workflow'}
+response = requests.post(url, headers=headers, json=data)
+print(response.status_code)
+"
+        env:
+          MY_PERSONAL_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
 
       - name: Trigger Backend Pipeline
         run: |
-          http POST https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches \
-               Authorization:"token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-               Accept:"application/vnd.github.v3+json" \
-               event_type=run-workflow
+          python3 -c "
+import requests
+import os
+url = 'https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches'
+headers = {
+    'Authorization': f'token {os.getenv('MY_PERSONAL_TOKEN')}',
+    'Accept': 'application/vnd.github.v3+json'
+}
+data = {'event_type': 'run-workflow'}
+response = requests.post(url, headers=headers, json=data)
+print(response.status_code)
+"
+        env:
+          MY_PERSONAL_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
