@@ -9,29 +9,27 @@ on:
         default: 'main'
 
 jobs:
-  trigger:
+  trigger-workflows:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger workflow in another repo
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const repoOwner = 'DevOps-ProjectLevel';
-            const repoName = 'provedcode-frontend-tr23malyarchuk';
-            const workflowId = 'main.yml';
-            const ref = '${{ github.event.inputs.ref }}';
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            try {
-              const response = await github.rest.actions.createWorkflowDispatch({
-                owner: repoOwner,
-                repo: repoName,
-                workflow_id: workflowId,
-                ref: ref
-              });
-              console.log(`Workflow triggered successfully: ${response.status}`);
-            } catch (error) {
-              console.error(`Failed to trigger workflow: ${error}`);
-              throw error;
-            }
+      - name: Trigger Backend Workflow
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/bohdan/ProvedCode1/cross-repo/provedcode-cross-repo-ci/backend/repository_dispatch \
+            -d '{"event_type": "trigger-backend-workflow"}'
+      - name: Trigger Frontend Workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/bohdan/ProvedCode1/cross-repo/provedcode-cross-repo-ci/frontend/repository_dispatch \
+            -d '{"event_type": "trigger-frontend-workflow"}'
