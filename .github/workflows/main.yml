@@ -13,17 +13,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Frontend Pipeline
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -d '{"event_type": "run-workflow"}' \
-            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: dispatch } = await github.request('POST /repos/{owner}/{repo}/dispatches', {
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-frontend-tr23malyarchuk',
+              event_type: 'run-workflow',
+              headers: {
+                accept: 'application/vnd.github.v3+json',
+              },
+            });
+            console.log('Triggered Frontend Pipeline:', dispatch);
 
       - name: Trigger Backend Pipeline
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -d '{"event_type": "run-workflow"}' \
-            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: dispatch } = await github.request('POST /repos/{owner}/{repo}/dispatches', {
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-backend-tr23malyarchuk',
+              event_type: 'run-workflow',
+              headers: {
+                accept: 'application/vnd.github.v3+json',
+              },
+            });
+            console.log('Triggered Backend Pipeline:', dispatch);
+
