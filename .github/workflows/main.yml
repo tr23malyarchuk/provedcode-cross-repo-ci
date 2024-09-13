@@ -14,34 +14,16 @@ jobs:
     steps:
       - name: Trigger Frontend Pipeline
         run: |
-          python3 -c "
-import requests
-import os
-url = 'https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches'
-headers = {
-    'Authorization': f'token {os.getenv('MY_PERSONAL_TOKEN')}',
-    'Accept': 'application/vnd.github.v3+json'
-}
-data = {'event_type': 'run-workflow'}
-response = requests.post(url, headers=headers, json=data)
-print(response.status_code)
-"
-        env:
-          MY_PERSONAL_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"event_type": "run-workflow"}' \
+            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
 
       - name: Trigger Backend Pipeline
         run: |
-          python3 -c "
-import requests
-import os
-url = 'https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches'
-headers = {
-    'Authorization': f'token {os.getenv('MY_PERSONAL_TOKEN')}',
-    'Accept': 'application/vnd.github.v3+json'
-}
-data = {'event_type': 'run-workflow'}
-response = requests.post(url, headers=headers, json=data)
-print(response.status_code)
-"
-        env:
-          MY_PERSONAL_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"event_type": "run-workflow"}' \
+            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches
