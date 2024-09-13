@@ -13,16 +13,20 @@ jobs:
 
   run-provedcode-pipeline:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-      with:
-        repository: 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk'
-        token: ${{ secrets.MY_PAT }}
-        path: 'provedcode'
-
-    - name: Run provedcode pipeline
-      working-directory: provedcode
-      run: |
-        # Assuming the pipeline is defined in .github/workflows/main.yml
-        gh workflow run main.yml
+      - name: Trigger Frontend Pipeline
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          event-type: run-workflow
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+  
+  trigger_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Backend Pipeline
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
+          event-type: run-workflow
+          token: ${{ secrets.MY_PERSONAL_TOKEN }}
