@@ -15,7 +15,7 @@ jobs:
       - name: Trigger Frontend Pipeline
         run: |
           curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.PAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{"event_type": "run-workflow"}' \
             https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
@@ -23,7 +23,7 @@ jobs:
       - name: Trigger Backend Pipeline
         run: |
           curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.PAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{"event_type": "run-workflow"}' \
             https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches
