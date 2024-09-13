@@ -12,31 +12,57 @@ jobs:
   trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Frontend Pipeline
-        uses: actions/github-script@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          script: |
-            const { data: dispatch } = await github.request('POST /repos/{owner}/{repo}/dispatches', {
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-frontend-tr23malyarchuk',
-              event_type: 'run-workflow',
+          node-version: '18'  # Укажите версию Node.js, которую хотите использовать
+
+      - name: Install Dependencies
+        run: npm install axios
+
+      - name: Trigger Frontend Pipeline
+        run: |
+          node -e "
+            const axios = require('axios');
+            const repo = 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk';
+            const token = process.env.GITHUB_TOKEN;
+            axios.post(`https://api.github.com/repos/${repo}/dispatches`, {
+              event_type: 'run-workflow'
+            }, {
               headers: {
-                accept: 'application/vnd.github.v3+json',
-              },
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+              }
+            }).then(response => {
+              console.log('Triggered Frontend Pipeline:', response.data);
+            }).catch(error => {
+              console.error('Error triggering Frontend Pipeline:', error);
+              process.exit(1);
             });
-            console.log('Triggered Frontend Pipeline:', dispatch);
+          "
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
 
       - name: Trigger Backend Pipeline
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { data: dispatch } = await github.request('POST /repos/{owner}/{repo}/dispatches', {
-              owner: 'DevOps-ProjectLevel',
-              repo: 'provedcode-backend-tr23malyarchuk',
-              event_type: 'run-workflow',
+        run: |
+          node -e "
+            const axios = require('axios');
+            const repo = 'DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk';
+            const token = process.env.GITHUB_TOKEN;
+            axios.post(`https://api.github.com/repos/${repo}/dispatches`, {
+              event_type: 'run-workflow'
+            }, {
               headers: {
-                accept: 'application/vnd.github.v3+json',
-              },
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+              }
+            }).then(response => {
+              console.log('Triggered Backend Pipeline:', response.data);
+            }).catch(error => {
+              console.error('Error triggering Backend Pipeline:', error);
+              process.exit(1);
             });
-            console.log('Triggered Backend Pipeline:', dispatch);
+          "
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
 
