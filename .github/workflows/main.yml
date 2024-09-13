@@ -12,57 +12,28 @@ jobs:
   trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'  # Укажите версию Node.js, которую хотите использовать
-
-      - name: Install Dependencies
-        run: npm install axios
+      - name: Install jq
+        run: sudo apt-get install -y jq
 
       - name: Trigger Frontend Pipeline
         run: |
-          node -e "
-            const axios = require('axios');
-            const repo = 'DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk';
-            const token = process.env.GITHUB_TOKEN;
-            axios.post(`https://api.github.com/repos/${repo}/dispatches`, {
-              event_type: 'run-workflow'
-            }, {
-              headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json'
-              }
-            }).then(response => {
-              console.log('Triggered Frontend Pipeline:', response.data);
-            }).catch(error => {
-              console.error('Error triggering Frontend Pipeline:', error);
-              process.exit(1);
-            });
-          "
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+          wget --header="Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+               --header="Accept: application/vnd.github.v3+json" \
+               --method=POST \
+               --body-data='{"event_type": "run-workflow"}' \
+               https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
+               -O response.json
+
+          cat response.json | jq .
 
       - name: Trigger Backend Pipeline
         run: |
-          node -e "
-            const axios = require('axios');
-            const repo = 'DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk';
-            const token = process.env.GITHUB_TOKEN;
-            axios.post(`https://api.github.com/repos/${repo}/dispatches`, {
-              event_type: 'run-workflow'
-            }, {
-              headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json'
-              }
-            }).then(response => {
-              console.log('Triggered Backend Pipeline:', response.data);
-            }).catch(error => {
-              console.error('Error triggering Backend Pipeline:', error);
-              process.exit(1);
-            });
-          "
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+          wget --header="Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+               --header="Accept: application/vnd.github.v3+json" \
+               --method=POST \
+               --body-data='{"event_type": "run-workflow"}' \
+               https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches \
+               -O response.json
+
+          cat response.json | jq .
 
