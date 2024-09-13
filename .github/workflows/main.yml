@@ -1,5 +1,4 @@
 name: Main CI
-
 on:
   push:
     branches:
@@ -16,16 +15,20 @@ jobs:
           script: |
             const repoOwner = 'DevOps-ProjectLevel';
             const repoName = 'provedcode-frontend-tr23malyarchuk';
-            const workflowId = 'main.yml';
-            const ref = 'main'; // Branch or tag to run the workflow
+            const workflowId = 'main.yml'; // Имя вашего файла рабочего процесса
+            const ref = 'main'; // Ветка, на которую запускается рабочий процесс
 
-            const response = await github.rest.actions.createWorkflowDispatch({
-              owner: repoOwner,
-              repo: repoName,
-              workflow_id: workflowId,
-              ref: ref
-            });
-
-            console.log(`Workflow triggered successfully: ${response.status}`);
+            try {
+              const response = await github.rest.actions.createWorkflowDispatch({
+                owner: repoOwner,
+                repo: repoName,
+                workflow_id: workflowId,
+                ref: ref
+              });
+              console.log(`Workflow triggered successfully: ${response.status}`);
+            } catch (error) {
+              console.error(`Failed to trigger workflow: ${error}`);
+              throw error;
+            }
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
