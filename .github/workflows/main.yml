@@ -12,16 +12,18 @@ jobs:
   trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: ${{ secrets.REPO_FRONTEND }}
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+      - name: Trigger Frontend Pipeline
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"event_type": "run-workflow"}' \
+            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches
 
-      - name: Trigger Pipeline
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: ${{ secrets.REPO_BACKEND }}
-          event-type: run-workflow
-          token: ${{ secrets.MY_PERSONAL_TOKEN }}
+      - name: Trigger Backend Pipeline
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"event_type": "run-workflow"}' \
+            https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches
