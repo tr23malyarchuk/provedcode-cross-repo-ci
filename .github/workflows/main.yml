@@ -8,9 +8,7 @@ on:
         required: true
         default: 'main'
 
-
 jobs:
-
   run-provedcode-pipeline:
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +18,7 @@ jobs:
           repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
           event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
-  
+
   trigger_backend:
     runs-on: ubuntu-latest
     steps:
@@ -30,3 +28,4 @@ jobs:
           repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
           event-type: run-workflow
           token: ${{ secrets.MY_PERSONAL_TOKEN }}
+
