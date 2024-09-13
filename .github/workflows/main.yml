@@ -12,28 +12,19 @@ jobs:
   trigger-pipelines:
     runs-on: ubuntu-latest
     steps:
-      - name: Install jq
-        run: sudo apt-get install -y jq
+      - name: Install httpie
+        run: sudo apt-get install -y httpie
 
       - name: Trigger Frontend Pipeline
         run: |
-          wget --header="Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-               --header="Accept: application/vnd.github.v3+json" \
-               --method=POST \
-               --body-data='{"event_type": "run-workflow"}' \
-               https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
-               -O response.json
-
-          cat response.json | jq .
+          http POST https://api.github.com/repos/DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/dispatches \
+               Authorization:"token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+               Accept:"application/vnd.github.v3+json" \
+               event_type=run-workflow
 
       - name: Trigger Backend Pipeline
         run: |
-          wget --header="Authorization: token ${{ secrets.MY_PERSONAL_TOKEN }}" \
-               --header="Accept: application/vnd.github.v3+json" \
-               --method=POST \
-               --body-data='{"event_type": "run-workflow"}' \
-               https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches \
-               -O response.json
-
-          cat response.json | jq .
-
+          http POST https://api.github.com/repos/DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk/dispatches \
+               Authorization:"token ${{ secrets.MY_PERSONAL_TOKEN }}" \
+               Accept:"application/vnd.github.v3+json" \
+               event_type=run-workflow
