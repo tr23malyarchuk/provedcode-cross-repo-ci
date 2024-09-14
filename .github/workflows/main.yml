@@ -16,4 +16,4 @@ jobs:
     with:
       config-path: ${{ inputs.config-path }}
     secrets:
-      envPAT: ${{ secrets.PAT }}
+      PAT: ${{ secrets.PAT }}
