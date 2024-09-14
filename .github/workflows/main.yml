@@ -14,6 +14,6 @@ jobs:
   reusable_workflow_job:
     uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
     with:
-      config-path: .github/workflows/main.yml
+      config-path: ${{ inputs.config-path }}
     secrets:
       envPAT: ${{ secrets.PAT }}
