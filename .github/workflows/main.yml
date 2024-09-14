@@ -1,14 +1,28 @@
 name: Main Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      target:
+        description: The target tag or reference
+        required: true
+      main_version:
+        type: choice
+        description: The major version tag to update
+        options:
+          - v3
 
 jobs:
-  call-frontend-workflow:
-    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/frontend.yml@v1
-    with:
-      example_input: 'random value pasted'
-    secrets:
-      PAT: ${{ secrets.PAT }}
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}  # Используйте ваш токен доступа
+          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk  # Укажите целевой репозиторий
+          event-type: my-event  # Укажите тип события
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'  # Дополнительные данные
