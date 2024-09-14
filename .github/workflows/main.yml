@@ -1,6 +1,14 @@
 name: Call a reusable workflow
 
 on:
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+    secrets:
+      PAT:
+        required: true
   push:
     branches:
       - main
