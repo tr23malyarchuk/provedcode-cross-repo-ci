@@ -1,41 +1,19 @@
 name: Main CI
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      ref:
-        description: 'Git ref to checkout'
+      config-path:
         required: true
-        default: 'main'
+        type: string
+    secrets:
+      PAT:
+        required: true
 
 jobs:
-  trigger-pipelines:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Frontend Pipeline
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const repoOwner = 'DevOps-ProjectLevel';
-            const repoName = 'provedcode-frontend-tr23malyarchuk';
-            const token = process.env.GITHUB_TOKEN;
-
-            await github.rest.repos.createDispatchEvent({
-              owner: repoOwner,
-              repo: repoName,
-              event_type: 'run-workflow',
-            });
-
-      - name: Trigger Backend Pipeline
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const repoOwner = 'DevOps-ProjectLevel';
-            const repoName = 'provedcode-backend-tr23malyarchuk';
-            const token = process.env.GITHUB_TOKEN;
-
-            await github.rest.repos.createDispatchEvent({
-              owner: repoOwner,
-              repo: repoName,
-              event_type: 'run-workflow',
-            });
+  reusable_workflow_job:
+    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
+    with:
+      config-path: .github/workflows/main.yml
+    secrets:
+      envPAT: ${{ secrets.PAT }}
