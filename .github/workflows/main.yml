@@ -1,19 +1,20 @@
-name: Main CI
+name: Call a reusable workflow
 
 on:
-  workflow_call:
-    inputs:
-      config-path:
-        required: true
-        type: string
-    secrets:
-      PAT:
-        required: true
+  push:
+    branches:
+      - main
 
 jobs:
-  reusable_workflow_job:
+  call-workflow:
+    uses: tr23malyarchuk/provedcode-cross-repo-ci/.github/workflows/main.yml@main
+
+  call-workflow-passing-data:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/main.yml@main
     with:
-      config-path: ${{ inputs.config-path }}
+      config-path: .github/labeler.yml
     secrets:
-      PAT: ${{ secrets.PAT }}
+      token: ${{ secrets.PAT }}
