@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-frontend-workflow:
-    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/frontend.yml@9c1e1a7f8f3827b11fb9eb34ab0a21afde30e19c
+    uses: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk/.github/workflows/frontend.yml@v1
     with:
       example_input: 'random value pasted'
     secrets:
