@@ -1,13 +1,23 @@
 name: Call a reusable workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      config-path:
+        description: 'Path to the configuration file'
+        required: true
+        type: string
+    secrets:
+      PAT:
+        required: true
 
 jobs:
   call-workflow:
     uses: tr23malyarchuk/provedcode-cross-repo-ci/.github/workflows/main.yml@main
+    with:
+      config-path: ${{ inputs.config-path }}
+    secrets:
+      PAT: ${{ secrets.PAT }}
 
   call-workflow-passing-data:
     permissions:
