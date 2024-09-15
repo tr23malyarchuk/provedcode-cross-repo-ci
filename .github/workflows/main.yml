@@ -2,27 +2,15 @@ name: Main Workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      target:
-        description: The target tag or reference
-        required: true
-      main_version:
-        type: choice
-        description: The major version tag to update
-        options:
-          - v3
 
 jobs:
-  test:
+  trigger_reusable_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Repository Dispatch
+      - name: Trigger Reusable Workflow
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.PAT }}  # Используйте ваш токен доступа
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk  # Укажите целевой репозиторий
-          event-type: my-event  # Укажите тип события
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'  # Дополнительные данные
+          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
+          event-type: trigger-workflow
+          token: ${{ secrets.key }}  # Your PAT stored in secrets
+          client-payload: '{"ref": "main", "inputs": {"example_input": "value"}}'
