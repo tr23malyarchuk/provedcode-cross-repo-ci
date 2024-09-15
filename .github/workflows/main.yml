@@ -12,5 +12,5 @@ jobs:
         with:
           repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
           event-type: trigger-workflow
-          token: ${{ secrets.key }}  # Your PAT stored in secrets
+          token: ${{ secrets.key }}
           client-payload: '{"ref": "main", "inputs": {"example_input": "value"}}'
