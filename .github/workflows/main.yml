@@ -8,10 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Frontend Workflow
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
-            console.log('Triggering Frontend Workflow...');
             const response = await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-frontend-tr23malyarchuk',
@@ -20,13 +19,14 @@ jobs:
                 example_input: 'value'
               }
             });
-            console.log(response);
+            console.log('Response:', response);
+        env:
+          GITHUB_TOKEN: ${{ secrets.key }}
 
       - name: Trigger Backend Workflow
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
-            console.log('Triggering Frontend Workflow...');
             const response = await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-backend-tr23malyarchuk',
@@ -35,4 +35,6 @@ jobs:
                 example_input: 'value'
               }
             });
-            console.log(response);
+            console.log('Response:', response);
+        env:
+          GITHUB_TOKEN: ${{ secrets.key }}
