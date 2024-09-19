@@ -11,7 +11,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            await github.repos.createDispatchEvent({
+            await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-frontend-tr23malyarchuk',
               event_type: 'trigger-workflow',
@@ -24,7 +24,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            await github.repos.createDispatchEvent({
+            await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-backend-tr23malyarchuk',
               event_type: 'trigger-workflow',
