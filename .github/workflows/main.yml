@@ -4,21 +4,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  trigger_reusable_workflow:
+  trigger_workflows:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Frontend Reusable Workflow
-        uses: peter-evans/repository-dispatch@v3
+      - name: Trigger Frontend Workflow
+        uses: actions/github-script@v5
         with:
-          repository: DevOps-ProjectLevel/provedcode-frontend-tr23malyarchuk
-          event-type: trigger-workflow
-          token: ${{ secrets.key }}
-          client-payload: '{"ref": "main", "inputs": {"example_input": "value"}}'
+          script: |
+            await github.repos.createDispatchEvent({
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-frontend-tr23malyarchuk',
+              event_type: 'trigger-workflow',
+              client_payload: {
+                example_input: 'value'
+              }
+            });
 
-      - name: Trigger Backend Reusable Workflow
-        uses: peter-evans/repository-dispatch@v3
+      - name: Trigger Backend Workflow
+        uses: actions/github-script@v5
         with:
-          repository: DevOps-ProjectLevel/provedcode-backend-tr23malyarchuk
-          event-type: trigger-workflow
-          token: ${{ secrets.key }}
-          client-payload: '{"ref": "main", "inputs": {"example_input": "value"}}'
+          script: |
+            await github.repos.createDispatchEvent({
+              owner: 'DevOps-ProjectLevel',
+              repo: 'provedcode-backend-tr23malyarchuk',
+              event_type: 'trigger-workflow',
+              client_payload: {
+                example_input: 'value'
+              }
+            });
