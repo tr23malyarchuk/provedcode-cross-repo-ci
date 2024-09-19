@@ -11,7 +11,8 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            await github.rest.repos.createDispatchEvent({
+            console.log('Triggering Frontend Workflow...');
+            const response = await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-frontend-tr23malyarchuk',
               event_type: 'trigger-workflow',
@@ -19,12 +20,14 @@ jobs:
                 example_input: 'value'
               }
             });
+            console.log(response);
 
       - name: Trigger Backend Workflow
         uses: actions/github-script@v5
         with:
           script: |
-            await github.rest.repos.createDispatchEvent({
+            console.log('Triggering Frontend Workflow...');
+            const response = await github.rest.repos.createDispatchEvent({
               owner: 'DevOps-ProjectLevel',
               repo: 'provedcode-backend-tr23malyarchuk',
               event_type: 'trigger-workflow',
@@ -32,3 +35,4 @@ jobs:
                 example_input: 'value'
               }
             });
+            console.log(response);
