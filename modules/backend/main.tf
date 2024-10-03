@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "docker" {
+  host = "unix:///var/run/docker.sock"
+}
+
 resource "docker_image" "backend_image" {
   name = "tr23malyarchuk/mavenback:v2"
 }
@@ -19,7 +32,7 @@ resource "docker_container" "backend" {
     external = 8080
   }
 
-  depends_on = [docker_container.db]
+  depends_on = [var.db_container_name]
 
   networks_advanced {
     name = var.network_name
