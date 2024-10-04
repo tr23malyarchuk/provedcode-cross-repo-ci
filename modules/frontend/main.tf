@@ -11,6 +11,10 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
+data "docker_network" "existing_network" {
+  name = "app_network"
+}
+
 resource "docker_image" "frontend_image" {
   name = "tr23malyarchuk/frontginx:v1"
 }
@@ -30,9 +34,7 @@ resource "docker_container" "frontend" {
     external = 80
   }
 
-  depends_on = [var.backend_container_name]
-
   networks_advanced {
-    name = var.network_name
+    name = data.docker_network.existing_network.id
   }
 }

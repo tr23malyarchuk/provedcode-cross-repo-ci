@@ -1,3 +1,3 @@
-output "backend_container_name" {
-  value = docker_container.backend.name
+output "backend_container_id" {
+  value = docker_container.backend.id
 }

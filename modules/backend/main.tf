@@ -22,17 +22,15 @@ resource "docker_container" "backend" {
 
   env = [
     "SPRING_PROFILES_ACTIVE=prod",
-    "SPRING_DATASOURCE_URL=jdbc:postgresql://${var.db_container_name}:5432/provedcode",
-    "SPRING_DATASOURCE_USERNAME=app_user",
-    "SPRING_DATASOURCE_PASSWORD=app_pass"
+    "SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/provedcode",
+    "SPRING_DATASOURCE_USERNAME=${var.db_user}",
+    "SPRING_DATASOURCE_PASSWORD=${var.db_password}"
   ]
 
   ports {
     internal = 8080
     external = 8080
   }
-
-  depends_on = [var.db_container_name]
 
   networks_advanced {
     name = var.network_name
