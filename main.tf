@@ -15,19 +15,21 @@ module "network" {
   source = "./modules/network"
 }
 
-module "database" {
-  source = "./modules/database"
+module "db" {
+  source = "./modules/db"
   network_name = module.network.network_name
+  db_user = var.db_user
+  db_password = var.db_password
 }
 
 module "backend" {
   source = "./modules/backend"
   network_name = module.network.network_name
-  db_container_name = module.database.db_container_name
+  db_user = var.db_user
+  db_password = var.db_password
 }
 
 module "frontend" {
   source = "./modules/frontend"
   network_name = module.network.network_name
-  backend_container_name = module.backend.backend_container_name
 }
