@@ -26,8 +26,11 @@ resource "google_container_cluster" "primary" {
   }
 }
 
-module "network" {
-  source = "./modules/network"
+module "backend" {
+  source = "./modules/backend"
+  network_name = module.network.network_name
+  db_user = var.db_user
+  db_password = var.db_password
 }
 
 module "db" {
@@ -37,14 +40,19 @@ module "db" {
   db_password = var.db_password
 }
 
-module "backend" {
-  source = "./modules/backend"
-  network_name = module.network.network_name
-  db_user = var.db_user
-  db_password = var.db_password
-}
-
 module "frontend" {
   source = "./modules/frontend"
   network_name = module.network.network_name
+}
+
+module "gke" {
+  source = "./modules/gke"
+}
+
+module "gke_containers" {
+  source = "./modules/gke-containers"
+}
+
+module "network" {
+  source = "./modules/network"
 }
