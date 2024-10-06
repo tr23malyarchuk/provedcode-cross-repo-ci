@@ -11,6 +11,6 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
-resource "docker_network" "app_network" {
+data "docker_network" "existing_network" {
   name = "app_network"
 }

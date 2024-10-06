@@ -47,14 +47,9 @@ resource "google_container_cluster" "default" {
       "https://www.googleapis.com/auth/monitoring",
     ]
   }
+
   network    = google_compute_network.default.name
   subnetwork = google_compute_subnetwork.default.name
-
-  addons_config {
-    http_load_balancing {
-      disabled = false
-    }
-  }
 }
 
 resource "google_container_node_pool" "default" {
@@ -78,6 +73,8 @@ resource "kubernetes_namespace" "my_namespace" {
   metadata {
     name = var.namespace_name
   }
+
+  depends_on = [google_container_cluster.default]
 }
 
 resource "kubernetes_deployment" "my_app" {

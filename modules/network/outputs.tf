@@ -1,3 +1,3 @@
 output "network_name" {
-  value = docker_network.app_network.name
+  value = data.docker_network.existing_network.name
 }
