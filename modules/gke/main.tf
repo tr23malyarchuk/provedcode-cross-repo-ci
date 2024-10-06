@@ -1,4 +1,3 @@
-# Configure the Google Cloud Provider
 terraform {
   required_providers {
     google = {
@@ -9,33 +8,30 @@ terraform {
 }
 
 provider "google" {
-  credentials = file(var.credentials_path) # Use a variable for the credentials file path
-  project     = var.project_id             # Use a variable for the project ID
-  region      = var.region                 # Use a variable for the region
+  credentials = file(var.credentials_path)
+  project     = var.project_id
+  region      = var.region
 }
 
-# Create a VPC Network
 resource "google_compute_network" "default" {
-  name                    = var.network_name # Use a variable for the network name
+  name                    = var.network_name
   auto_create_subnetworks = false
 }
 
-# Create a Subnetwork
 resource "google_compute_subnetwork" "default" {
-  name          = var.subnetwork_name  # Use a variable for the subnetwork name
-  ip_cidr_range = var.ip_cidr_range    # Use a variable for the CIDR range
+  name          = var.subnetwork_name
+  ip_cidr_range = var.ip_cidr_range
   region        = var.region
   network       = google_compute_network.default.name
 }
 
-# Create a Kubernetes Engine Cluster
 resource "google_container_cluster" "default" {
-  name             = var.cluster_name     # Use a variable for the cluster name
+  name             = var.cluster_name
   location         = var.region
-  initial_node_count = var.node_count     # Use a variable for the node count
+  initial_node_count = var.node_count
 
   node_config {
-    machine_type = var.machine_type       # Use a variable for the machine type
+    machine_type = var.machine_type
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
       "https://www.googleapis.com/auth/devstorage.read_only",
@@ -46,7 +42,6 @@ resource "google_container_cluster" "default" {
   network    = google_compute_network.default.name
   subnetwork = google_compute_subnetwork.default.name
 
-  # Enable the Kubernetes Engine add-on for the cluster
   addons_config {
     http_load_balancing {
       disabled = false
@@ -54,9 +49,8 @@ resource "google_container_cluster" "default" {
   }
 }
 
-# Create a Kubernetes Engine Node Pool
 resource "google_container_node_pool" "default" {
-  name     = var.node_pool_name            # Use a variable for the node pool name
+  name     = var.node_pool_name
   location = var.region
   cluster  = google_container_cluster.default.name
   initial_node_count = var.node_count
@@ -72,17 +66,15 @@ resource "google_container_node_pool" "default" {
   }
 }
 
-# Create a Kubernetes Engine Namespace
 resource "kubernetes_namespace" "my_namespace" {
   metadata {
-    name = var.namespace_name # Use a variable for the namespace name
+    name = var.namespace_name
   }
 }
 
-# Create a Kubernetes Deployment
 resource "kubernetes_deployment" "my_app" {
   metadata {
-    name      = var.deployment_name   # Use a variable for the deployment name
+    name      = var.deployment_name
     namespace = kubernetes_namespace.my_namespace.metadata[0].name
     labels = {
       app = "my-app"
@@ -90,7 +82,7 @@ resource "kubernetes_deployment" "my_app" {
   }
 
   spec {
-    replicas = var.replicas           # Use a variable for the number of replicas
+    replicas = var.replicas
 
     selector {
       match_labels = {
@@ -107,10 +99,10 @@ resource "kubernetes_deployment" "my_app" {
 
       spec {
         container {
-          name  = var.container_name   # Use a variable for the container name
-          image = var.container_image  # Use a variable for the container image
+          name  = var.container_name
+          image = var.container_image
           ports {
-            container_port = var.container_port  # Use a variable for the container port
+            container_port = var.container_port
           }
         }
       }
@@ -118,10 +110,9 @@ resource "kubernetes_deployment" "my_app" {
   }
 }
 
-# Create a Kubernetes Service to expose the Deployment
 resource "kubernetes_service" "my_app_service" {
   metadata {
-    name      = var.service_name      # Use a variable for the service name
+    name      = var.service_name
     namespace = kubernetes_namespace.my_namespace.metadata[0].name
   }
 
@@ -131,7 +122,7 @@ resource "kubernetes_service" "my_app_service" {
     }
 
     port {
-      port        = var.service_port   # Use a variable for the service port
+      port        = var.service_port
       target_port = var.container_port
     }
 
