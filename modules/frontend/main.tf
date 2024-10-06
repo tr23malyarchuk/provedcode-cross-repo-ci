@@ -11,7 +11,7 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
-data "docker_network" "existing_network" {
+resource "docker_network" "existing_network" {
   name = "app_network"
 }
 
@@ -35,6 +35,6 @@ resource "docker_container" "frontend" {
   }
 
   networks_advanced {
-    name = data.docker_network.existing_network.id
+    name = var.network_name
   }
 }

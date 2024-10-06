@@ -10,6 +10,21 @@ terraform {
 provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
+provider "google" {
+  project = "your-project-id"
+  region  = "us-central1"
+}
+
+resource "google_container_cluster" "primary" {
+  name     = "primary-cluster"
+  location = "us-central1"
+
+  initial_node_count = 1
+
+  node_config {
+    machine_type = "e2-medium" # 1 vCPU
+  }
+}
 
 module "network" {
   source = "./modules/network"
