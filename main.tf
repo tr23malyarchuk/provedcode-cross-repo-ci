@@ -46,7 +46,10 @@ module "frontend" {
 }
 
 module "gke" {
-  source = "./modules/gke"
+  source       = "./modules/gke"
+  project_id   = "zeta-sky-437510-j6"
+  region       = var.region
+  credentials_path = var.credentials_path
 }
 
 module "gke_containers" {

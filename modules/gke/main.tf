@@ -109,8 +109,9 @@ resource "kubernetes_deployment" "my_app" {
         container {
           name  = var.container_name
           image = var.container_image
-          ports {
-            container_port = var.container_port
+
+          port {
+            container_port = var.container_port  # Use 'port' instead of 'ports'
           }
         }
       }

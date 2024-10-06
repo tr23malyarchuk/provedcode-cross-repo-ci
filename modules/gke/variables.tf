@@ -1,6 +1,7 @@
 variable "credentials_path" {
   description = "Path to the service account credentials file"
   type        = string
+  default     = "C:\\Users\\Bohdan\\Downloads\\zeta-sky-437510-j6-286cd01fd991.json"
 }
 
 variable "project_id" {
