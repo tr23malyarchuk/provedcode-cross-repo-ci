@@ -1,24 +1,3 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 2.0"
-    }
-  }
-}
-
-provider "docker" {
-  host = "unix:///var/run/docker.sock"
-}
-
-resource "docker_image" "db_image" {
-  name = "postgres:13"
-}
-
-resource "docker_volume" "db_data" {
-  name = "db_data"
-}
-
 resource "docker_container" "db" {
   name    = "db"
   image   = docker_image.db_image.name
