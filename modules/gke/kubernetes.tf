@@ -1,3 +1,11 @@
+resource "kubernetes_namespace" "my_namespace" {
+  metadata {
+    name = var.namespace_name
+  }
+
+  depends_on = [google_container_cluster.default]
+}
+
 resource "kubernetes_deployment" "my_app" {
   metadata {
     name      = var.deployment_name
@@ -34,5 +42,25 @@ resource "kubernetes_deployment" "my_app" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service" "my_app_service" {
+  metadata {
+    name      = var.service_name
+    namespace = kubernetes_namespace.my_namespace.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = "my-app"
+    }
+
+    port {
+      port        = var.service_port
+      target_port = var.container_port
+    }
+
+    type = "LoadBalancer"
   }
 }
