@@ -26,23 +26,24 @@ module "gke" {
 
 module "gke_containers" {
   source            = "./modules/gke-containers"
+
   credentials_path  = var.credentials_path
   project_id        = var.project_id
   region            = var.region
-  network_name      = "my-network"
-  subnetwork_name   = "my-subnetwork"
-  ip_cidr_range     = "10.0.0.0/16"
-  cluster_name      = "my-cluster"
-  node_count        = 3
-  node_pool_name    = "my-node-pool"
-  namespace_name    = "my-namespace"
-  deployment_name   = "my-deployment"
-  replicas          = 1
-  container_name    = "my-container"
-  container_image   = "my-container-image"
-  container_port    = 80
-  service_name      = "my-service"
-  service_port      = 80
+  network_name      = var.network_name
+  subnetwork_name   = var.subnetwork_name
+  ip_cidr_range     = var.ip_cidr_range
+  cluster_name      = var.cluster_name
+  node_count        = var.node_count
+  node_pool_name    = var.node_pool_name
+  namespace_name    = var.namespace_name
+  deployment_name   = var.deployment_name
+  replicas          = var.replicas
+  container_name    = var.container_name
+  container_image   = var.container_image
+  container_port    = var.container_port
+  service_name      = var.service_name
+  service_port      = var.service_port
 }
 
 module "network" {
