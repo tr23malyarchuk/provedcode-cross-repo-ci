@@ -11,20 +11,6 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
-provider "kubernetes" {
-  host                   = "https://34.29.194.163"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
-}
-
-data "google_client_config" "default" {}
-
-data "google_container_cluster" "primary" {
-  name     = "primary-cluster"
-  location = "us-central1"
-}
-
-
 resource "kubernetes_deployment" "frontend_deployment" {
   metadata {
     name = "frontend-app"

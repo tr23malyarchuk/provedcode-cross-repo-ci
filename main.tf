@@ -28,7 +28,7 @@ resource "google_container_cluster" "primary" {
   initial_node_count = 1
 
   node_config {
-    machine_type = "e2-medium" # 1 vCPU
+    machine_type = "e2-small"
   }
 }
 
@@ -59,7 +59,24 @@ module "gke" {
 }
 
 module "gke_containers" {
-  source = "./modules/gke-containers"
+  source            = "./modules/gke-containers"
+  credentials_path  = "zeta-sky-437510-j6-286cd01fd991.json"
+  project_id        = "zeta-sky-437510-j6"
+  region            = "us-central1"
+  network_name      = "my-network"
+  subnetwork_name   = "my-subnetwork"
+  ip_cidr_range     = "10.0.0.0/16"
+  cluster_name      = "my-cluster"
+  node_count        = 3
+  node_pool_name    = "my-node-pool"
+  namespace_name    = "my-namespace"
+  deployment_name   = "my-deployment"
+  replicas          = 1
+  container_name    = "my-container"
+  container_image   = "my-container-image"
+  container_port    = 80
+  service_name      = "my-service"
+  service_port      = 80
 }
 
 module "network" {

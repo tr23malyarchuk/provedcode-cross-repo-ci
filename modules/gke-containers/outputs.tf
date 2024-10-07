@@ -1,7 +1,9 @@
-output "frontend_deployment_name" {
-  value = kubernetes_deployment.frontend_deployment.metadata[0].name
+output "cluster_endpoint" {
+  description = "The GKE cluster endpoint"
+  value       = google_container_cluster.default.endpoint
 }
 
-output "backend_deployment_name" {
-  value = kubernetes_deployment.backend_deployment.metadata[0].name
+output "cluster_name" {
+  description = "The GKE cluster name"
+  value       = google_container_cluster.default.name
 }

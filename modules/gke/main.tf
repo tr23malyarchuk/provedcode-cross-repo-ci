@@ -39,7 +39,9 @@ resource "google_container_cluster" "default" {
   initial_node_count = var.node_count
 
   node_config {
-    machine_type = var.machine_type
+    machine_type = "e2-small"
+    disk_type = "pd-standard"
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
       "https://www.googleapis.com/auth/devstorage.read_only",
@@ -59,7 +61,9 @@ resource "google_container_node_pool" "default" {
   initial_node_count = var.node_count
 
   node_config {
-    machine_type = var.machine_type
+    machine_type = "e2-small"
+    disk_type = "pd-standard"
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
       "https://www.googleapis.com/auth/devstorage.read_only",
