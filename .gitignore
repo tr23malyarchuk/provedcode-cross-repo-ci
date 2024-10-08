@@ -2,7 +2,7 @@
 /.terraform/
 .terraform.lock.hcl
 terraform.tfstate
-terraform.tfstate.backup
+terraform.tfstate.*
 
 # Ignore creds
 zeta-sky-437510-j6-286cd01fd991.json
