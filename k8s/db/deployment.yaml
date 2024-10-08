@@ -19,8 +19,14 @@ spec:
         - name: POSTGRES_DB
           value: "provedcode"
         - name: POSTGRES_USER
-          value: "app_user"
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: db-username
         - name: POSTGRES_PASSWORD
-          value: "app_pass"
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: db-password
         ports:
         - containerPort: 5432
