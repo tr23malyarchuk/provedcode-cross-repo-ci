@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: react-nginx
-        image: tr23malyarchuk/frontginx:v1
+        image: tr23malyarchuk/frontend:v1
         ports:
         - containerPort: 80
         volumeMounts:

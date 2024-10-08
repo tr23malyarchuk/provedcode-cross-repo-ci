@@ -1,6 +1,6 @@
 services:
-  frontginx:
-    image: tr23malyarchuk/frontginx:v1
+  frontend:
+    image: tr23malyarchuk/frontend:v1
     ports:
       - "80:80"
     environment:

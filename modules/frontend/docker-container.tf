@@ -1,5 +1,5 @@
 resource "docker_container" "frontend" {
-  name    = "frontginx"
+  name    = "frontend"
   image   = docker_image.frontend_image.name
   restart = "unless-stopped"
 

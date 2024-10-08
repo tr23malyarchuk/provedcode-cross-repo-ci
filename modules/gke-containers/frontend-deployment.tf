@@ -25,7 +25,7 @@ resource "kubernetes_deployment" "frontend_deployment" {
       spec {
         container {
           name  = "frontend"
-          image = "tr23malyarchuk/frontginx:v1"
+          image = "tr23malyarchuk/frontend:v1"
 
           port {
             container_port = 80
